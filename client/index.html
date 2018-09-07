@@ -2,41 +2,41 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Negociações</title>
+    <title>Negotiations</title>
     <link rel="stylesheet" href="css/bootstrap.css">
     <link rel="stylesheet" href="css/bootstrap-theme.css">
     
 </head>
 <body class="container">
     
-    <h1 class="text-center">Negociações</h1>
+    <h1 class="text-center">Negotiations</h1>
     
     <form class="form">
         
         <div class="form-group">
-            <label for="data">Data</label>
-            <input type="date" id="data" class="form-control" required autofocus/>        
+            <label for="date">Date</label>
+            <input type="date" id="date" class="form-control" required autofocus/>        
         </div>    
         
         <div class="form-group">
-            <label for="quantidade">Quantidade</label>
-            <input type="number" min="1" step="1" id="quantidade" class="form-control" value="1" required/>
+            <label for="amount">Amount</label>
+            <input type="number" min="1" step="1" id="amount" class="form-control" value="1" required/>
         </div>
         
         <div class="form-group">
-            <label for="valor">Valor</label>
-            <input id="valor" type="number" class="form-control"  min="0.01" step="0.01" value="0.0" required />
+            <label for="value">Value</label>
+            <input id="value" type="number" class="form-control"  min="0.01" step="0.01" value="0.0" required />
         </div>
         
-        <button class="btn btn-primary" type="submit">Incluir</button>
+        <button class="btn btn-primary" type="submit">Add</button>
     </form>
     
     <div class="text-center">
-        <button id="botao-importa" class="btn btn-primary text-center" type="button">
-            Importar Negociações
+        <button id="btn-import" class="btn btn-primary text-center" type="button">
+            Import Negotiations
         </button>
-        <button id="botao-apaga" class="btn btn-primary text-center" type="button">
-            Apagar
+        <button id="btn-remove" class="btn btn-primary text-center" type="button">
+            Erase
         </button>
     </div> 
     <br>
@@ -45,10 +45,10 @@
     <table class="table table-hover table-bordered">
         <thead>
             <tr>
-                <th>DATA</th>
-                <th>QUANTIDADE</th>
-                <th>VALOR</th>
-                <th>VOLUME</th>
+                <th>Date</th>
+                <th>Amount</th>
+                <th>Value</th>
+                <th>Volume</th>
             </tr>
         </thead>
         
