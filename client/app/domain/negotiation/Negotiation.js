@@ -1,4 +1,4 @@
-class Negociacao {
+class Negotiation {
   constructor(_date, _amount, _value) {
     Object.assign(this, { _amount, _value });
 
