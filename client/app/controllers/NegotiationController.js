@@ -10,17 +10,14 @@ class NegotiationController {
   add(event) {
     event.preventDefault();
 
-    const date = new Date(
-      ...this._dateInput.value
-      .split('-')
-      .map((item, index) => item - index % 2)
+    const negotiation = new Negotiation(
+      DateConverter.toDate(this._dateInput.value),
+      parseInt(this._amountInput.value),
+      parseFloat(this._valueInput.value)
     );
 
-    console.log(date);
-    // const negotiation = new Negotiation(
-    //   ,
-    //   parseInt(this._amountInput.value),
-    //   parseFloat(this._valueInput.value)
-    // );
+    const formattedDate = DateConverter.toText(negotiation.date);
+
+    console.log(formattedDate);
   }
 }
