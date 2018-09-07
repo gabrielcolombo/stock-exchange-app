@@ -8,13 +8,14 @@ class DateConverter {
   }
 
   static toDate(text) {
-    if(!/^\d{4}-\d{2}-\d{2}$/.test(text)) {
-      throw new Error('Date must have the following format: yyyy-mm-dd');
+    if(!/\d{2}\/\d{2}\/\d{4}/.test(text)) {
+      throw new InvalidDateException('Date must have the following format: dd/mm/yyyy');
     }
 
     return new Date(
       ...text
-      .split('-')
+      .split('/')
+      .reverse()
       .map((item, index) => item - index % 2)
     );
   }

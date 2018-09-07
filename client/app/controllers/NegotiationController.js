@@ -22,12 +22,21 @@ class NegotiationController {
   }
 
   add(event) {
-    event.preventDefault();
+    try {
+      event.preventDefault();
 
-    this._negotiations.add(this._createNegotiation());
-    this._message.text = 'Negotiation added successfully!';
-    
-    this._clearForm();
+      this._negotiations.add(this._createNegotiation());
+      this._message.text = 'Negotiation added successfully!';
+      
+      this._clearForm();
+    } catch(err) {
+      console.log(err);
+      console.log(err.stack);
+
+      this._message.text = (err instanceof InvalidDateException)
+        ? err.message
+        : 'We\'ve found an unexpected error. Please contact customer support.';
+    }
   }
 
   _createNegotiation() {
