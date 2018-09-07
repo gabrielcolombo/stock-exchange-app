@@ -11,14 +11,22 @@ class NegotiationController {
     this._negotiationsView = new NegotiationsView('#negotiations');
   
     this._negotiationsView.update(this._negotiations);
+  
+    this._message = new Message();
+    this._messageView = new MessageView('#message-view');
+
+    this._messageView.update(this._message);
   }
 
   add(event) {
     event.preventDefault();
 
     this._negotiations.add(this._createNegotiation());
-    this._negotiationsView.update(this._negotiations);
+    this._message.text = 'Negotiation added successfully!';
     
+    this._negotiationsView.update(this._negotiations);
+    this._messageView.update(this._message);
+
     this._clearForm();
   }
 
