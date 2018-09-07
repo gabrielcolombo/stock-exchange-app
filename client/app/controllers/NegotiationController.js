@@ -7,29 +7,18 @@ class NegotiationController {
     this._amountInput = $('#amount');
     this._valueInput = $('#value');
 
-    this._negotiations = new Proxy(new Negotiations(), {
-      get(target, prop, receiver) {
-        if(
-          typeof(target[prop]) === typeof(Function) &&
-          ['add', 'clear'].includes(prop)
-        ) {
-          return function() {
-            target[prop].apply(target, arguments);
+    this._message = new Bind(
+      new Message(),
+      new MessageView('#message-view'),
+      'text',
+    );
 
-            self._negotiationsView.update(target);
-          }
-        } else {
-          return target[prop];
-        }
-      }
-    });
-
-    this._negotiationsView = new NegotiationsView('#negotiations');
-  
-    this._message = new Message();
-    this._messageView = new MessageView('#message-view');
-
-    this._messageView.update(this._message);
+    this._negotiations = new Bind(
+      new Negotiations(),
+      new NegotiationsView('#negotiations'),
+      'add',
+      'clear',
+    );
   }
 
   add(event) {
@@ -61,6 +50,5 @@ class NegotiationController {
     this._negotiations.clear();
     
     this._message.text = 'Negotiations cleared sucessfully!';
-    this._messageView.update(this._message);
   }
 }
