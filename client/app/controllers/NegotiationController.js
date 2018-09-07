@@ -2,15 +2,15 @@ class NegotiationController {
   constructor() {
     const $ = document.querySelector.bind(document);
 
-    this._negotiations = new Negotiations();
-
     this._dateInput = $('#date');
     this._amountInput = $('#amount');
     this._valueInput = $('#value');
 
+    this._negotiations = new Negotiations((model) => {
+      this._negotiationsView.update(model);
+    });
+
     this._negotiationsView = new NegotiationsView('#negotiations');
-  
-    this._negotiationsView.update(this._negotiations);
   
     this._message = new Message();
     this._messageView = new MessageView('#message-view');
@@ -25,7 +25,6 @@ class NegotiationController {
     this._message.text = 'Negotiation added successfully!';
     
     this._negotiationsView.update(this._negotiations);
-    this._messageView.update(this._message);
 
     this._clearForm();
   }
@@ -44,5 +43,12 @@ class NegotiationController {
     this._valueInput.value = 0.0;
 
     this._dateInput.focus();
+  }
+
+  clear() {
+    this._negotiations.clear();
+    
+    this._message.text = 'Negotiations cleared sucessfully!';
+    this._messageView.update(this._message);
   }
 }

@@ -1,6 +1,9 @@
 class Negotiations {
-  constructor() {
+  constructor(trap) {
     this._negotiations = [];
+    this._trap = trap;
+
+    Object.freeze(this);
   }
 
   get totalVolume() {
@@ -10,9 +13,17 @@ class Negotiations {
 
   add(negotiation) {
     this._negotiations.push(negotiation);
+
+    this._trap(this);
   }
 
   toArray() {
     return [].concat(this._negotiations);
+  }
+
+  clear() {
+    this._negotiations.length = 0;
+
+    this._trap(this);
   }
 }
