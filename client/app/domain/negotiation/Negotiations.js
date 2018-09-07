@@ -1,7 +1,6 @@
 class Negotiations {
-  constructor(trap) {
+  constructor() {
     this._negotiations = [];
-    this._trap = trap;
 
     Object.freeze(this);
   }
@@ -13,8 +12,6 @@ class Negotiations {
 
   add(negotiation) {
     this._negotiations.push(negotiation);
-
-    this._trap(this);
   }
 
   toArray() {
@@ -23,7 +20,5 @@ class Negotiations {
 
   clear() {
     this._negotiations.length = 0;
-
-    this._trap(this);
   }
 }
