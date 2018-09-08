@@ -1,60 +1,57 @@
-/* Código simplório, apenas para fornecer o serviço para a aplicação */
 var api = {}
 
-var dataAtual = new Date();
-var dataAnterior = new Date();
-dataAnterior.setDate(dataAtual.getDate() - 7);
-var dateRetrasada = new Date();
-dateRetrasada.setDate(dataAtual.getDate() - 14);
+var currentDate = new Date();
+var previousDate = new Date();
+previousDate.setDate(currentDate.getDate() - 7);
+var fortnightDate = new Date();
+fortnightDate.setDate(currentDate.getDate() - 14);
 
-var negociacoes = [
-      { data : dataAtual, quantidade : 1, valor : 150},
-      { data : dataAtual, quantidade : 2, valor : 250},
-      { data : dataAtual, quantidade : 3, valor : 350},
-      { data : dataAnterior, quantidade : 1, valor : 450},
-      { data : dataAnterior, quantidade : 2, valor : 550},
-      { data : dataAnterior, quantidade : 3, valor : 650},
-      { data : dateRetrasada, quantidade : 1, valor : 750},
-      { data : dateRetrasada, quantidade : 2, valor : 950},
-      { data : dateRetrasada, quantidade : 3, valor : 950}
+var negotiations = [
+      { date : currentDate, amount : 1, value : 150},
+      { date : currentDate, amount : 2, value : 250},
+      { date : currentDate, amount : 3, value : 350},
+      { date : previousDate, amount : 1, value : 450},
+      { date : previousDate, amount : 2, value : 550},
+      { date : previousDate, amount : 3, value : 650},
+      { date : fortnightDate, amount : 1, value : 750},
+      { date : fortnightDate, amount : 2, value : 950},
+      { date : fortnightDate, amount : 3, value : 950}
     ];
 
 
-api.listaSemana = function(req, res) {
-    var negociacoesAtuais = negociacoes.filter(function(negociacao) {
-        return negociacao.data > dataAnterior;
+api.getWeek = function(req, res) {
+    var response = negotiations.filter(function(negotiation) {
+        return negotiation.date > previousDate;
     });
-    res.json(negociacoesAtuais);
+    res.json(response);
 };
 
-api.listaAnterior = function(req, res) {
+api.getPrevious = function(req, res) {
    
-   var negociacoesAnteriores = negociacoes.filter(function(negociacao) {
-        return negociacao.data < dataAtual && negociacao.data > dateRetrasada;
-    });
+  var response = negotiations.filter(function(negotiation) {
+      return negotiation.date < currentDate && negotiation.date > fortnightDate;
+  });
 	setTimeout(function() {
-		res.json(negociacoesAnteriores);	
+		res.json(response);	
 	}, 500);
     
 };
 
-api.listaRetrasada = function(req, res) {
+api.getFortnight = function(req, res) {
 
-   var negociacoesRtrasadas = negociacoes.filter(function(negociacao) {
-        return negociacao.data < dataAnterior;
-    });
-    res.json(negociacoesRtrasadas);
+  var response = negotiations.filter(function(negotiation) {
+      return negotiation.date < previousDate;
+  });
+  res.json(response);
     
 };
 
-api.cadastraNegociacao = function(req, res) {
+api.createNegotiation = function(req, res) {
 
    console.log(req.body);
-   req.body.data = new Date(req.body.data.replace(/-/g,'/'));
-   negociacoes.push(req.body);
-   res.status(200).json("Negociação recebida");
+   req.body.date = new Date(req.body.date.replace(/-/g,'/'));
+   negotiations.push(req.body);
+   res.status(200).json("Negotiation received");
 };
-
-
 
 module.exports = api;
