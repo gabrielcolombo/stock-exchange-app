@@ -21,16 +21,34 @@ class NegotiationController {
     );
 
     this._service = new NegotiationService();
+
+    this._init();
+  }
+
+  _init() {
+    getNegotiationDao()
+      .then(dao => dao.list())
+      .then(negotiations => negotiations
+        .forEach((negotiation) => this._negotiations.add(negotiation))
+      )
+      .catch(err => this._message.text = err);
   }
 
   add(event) {
     try {
       event.preventDefault();
 
-      this._negotiations.add(this._createNegotiation());
-      this._message.text = 'Negotiation added successfully!';
-      
-      this._clearForm();
+      const negotiation = this._createNegotiation();
+
+      getNegotiationDao()
+        .then(dao => dao.add(negotiation))
+        .then(() => {
+          this._negotiations.add(negotiation);
+          this._message.text = 'Negotiation added successfully!';
+
+          this._clearForm();
+        })
+        .catch(err => this._message.text = err);
     } catch(err) {
       console.log(err);
       console.log(err.stack);
@@ -75,8 +93,13 @@ class NegotiationController {
   }
 
   clear() {
-    this._negotiations.clear();
+    getNegotiationDao()
+      .then(dao => dao.clear())
+      .then(() => {
+        this._negotiations.clear();
     
-    this._message.text = 'Negotiations cleared sucessfully!';
+        this._message.text = 'Negotiations cleared sucessfully!';
+      })
+      .catch(err => this._message.text = err);
   }
 }
