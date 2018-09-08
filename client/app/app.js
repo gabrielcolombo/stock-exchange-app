@@ -1,9 +1,12 @@
 const controller = new NegotiationController();
 
-document
-  .querySelector('.form')
+const	$	=	document.querySelector.bind(document);
+
+$('.form')
   .addEventListener('submit', controller.add.bind(controller));
 
-  document
-  .querySelector('#btn-remove')
+$('#btn-remove')
   .addEventListener('click', controller.clear.bind(controller));
+
+$('#btn-import')
+  .addEventListener('click', controller.importNegotiations.bind(controller));

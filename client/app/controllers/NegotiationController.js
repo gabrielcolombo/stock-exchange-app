@@ -19,6 +19,8 @@ class NegotiationController {
       'add',
       'clear',
     );
+
+    this._service = new NegotiationService();
   }
 
   add(event) {
@@ -45,6 +47,23 @@ class NegotiationController {
       parseInt(this._amountInput.value),
       parseFloat(this._valueInput.value)
     );
+  }
+
+  importNegotiations() {
+    this._service
+      .getPeriodNegotiations()
+      .then((negotiations) => {
+        negotiations
+          .filter(negotiation => !this._negotiations
+            .toArray()
+            .some(existingNegotiation => negotiation.equals(existingNegotiation))
+          )
+          .forEach(negotiation => this._negotiations.add(negotiation));
+        this._message.text = 'Negotiations imported successfully!';
+      })
+      .catch((err) => {
+        this._message.text = err;
+      });
   }
 
   _clearForm() {
