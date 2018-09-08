@@ -1,0 +1,82 @@
+<!DOCTYPE	html>
+<html>
+<head>
+  <meta	charset="UTF-8">
+  <title>Aprendendo	IndexedDB</title>
+</head>
+<body>
+  <script src="app/domain/negotiation/Negotiation.js"></script>
+  <script>
+    const negotiations = [];
+    const openRequest = indexedDB.open('jscangaceiro', 2);
+    let connection = null;
+
+    openRequest.onupgradeneeded = event => {
+      console.log('Created || Updated');
+      connection = event.target.result;
+      
+      if(connection.objectStoreNames.contains('negotiations')) {
+        connection.deleteObjectStore('negotiations');
+      }
+
+      connection.createObjectStore('negotiations', {
+        autoIncrement: true,
+      });
+    }
+
+    openRequest.onsuccess = event => {
+      console.log('Connected');
+      
+      connection = event.target.result;
+    }
+
+    openRequest.onerror = event => {
+      console.log(event.target.error);
+    }
+
+    function add() {
+      const negotiation = new Negotiation(new Date(), 200, 1);
+
+      const request = connection
+        .transaction(['negotiations'], 'readwrite')
+        .objectStore('negotiations')
+        .add(negotiation);
+
+      request.onsuccess = event => {
+        console.log('Negotiation saved sucessfully!');
+      }
+
+      request.onerror = event => {
+        console.log('Failure while saving the negotiation.');
+      }
+    }
+
+    function list() {
+      const cursor = connection
+        .transaction(['negotiations'], 'readwrite')
+        .objectStore('negotiations')
+        .openCursor();
+
+      cursor.onsuccess = event => {
+        const current = event.target.result;
+
+        if(current) {
+          negotiations.push(new Negotiation(
+            new Date(current.value._date),
+            current.value._amount,
+            current.value._value,
+          ));
+
+          current.continue();
+        } else {
+          console.log(negotiations);
+        }
+      }
+
+      cursor.onerror = event => {
+        console.log(event.target.error.name);
+      }
+    }
+</script>
+</body>
+</html>
