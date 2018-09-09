@@ -1,22 +1,32 @@
-class DateConverter {
-  constructor() {
-    throw new Error('This class should not be instantiated.');
-  }
+System.register(['./InvalidDateException.js'], function (_export, _context) {
+  "use strict";
 
-  static toText(date) {
-    return `${date.getDate()}/${(date.getMonth() + 1)}/${date.getFullYear()}`;
-  }
+  var InvalidDateException;
+  return {
+    setters: [function (_InvalidDateExceptionJs) {
+      InvalidDateException = _InvalidDateExceptionJs.InvalidDateException;
+    }],
+    execute: function () {
+      class DateConverter {
+        constructor() {
+          throw new Error('This class should not be instantiated.');
+        }
 
-  static toDate(text) {
-    if(!/\d{2}\/\d{2}\/\d{4}/.test(text)) {
-      throw new InvalidDateException('Date must have the following format: dd/mm/yyyy');
+        static toText(date) {
+          return `${date.getDate()}/${date.getMonth() + 1}/${date.getFullYear()}`;
+        }
+
+        static toDate(text) {
+          if (!/\d{2}\/\d{2}\/\d{4}/.test(text)) {
+            throw new InvalidDateException('Date must have the following format: dd/mm/yyyy');
+          }
+
+          return new Date(...text.split('/').reverse().map((item, index) => item - index % 2));
+        }
+      }
+
+      _export('DateConverter', DateConverter);
     }
-
-    return new Date(
-      ...text
-      .split('/')
-      .reverse()
-      .map((item, index) => item - index % 2)
-    );
-  }
-}
+  };
+});
+//# sourceMappingURL=DateConverter.js.map

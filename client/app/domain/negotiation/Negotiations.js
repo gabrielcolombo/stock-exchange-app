@@ -1,24 +1,35 @@
-class Negotiations {
-  constructor() {
-    this._negotiations = [];
+System.register([], function (_export, _context) {
+  "use strict";
 
-    Object.freeze(this);
-  }
+  return {
+    setters: [],
+    execute: function () {
+      class Negotiations {
+        constructor() {
+          this._negotiations = [];
 
-  get totalVolume() {
-    return this._negotiations
-      .reduce((total, { volume }) => total + volume, 0);
-  }
+          Object.freeze(this);
+        }
 
-  add(negotiation) {
-    this._negotiations.push(negotiation);
-  }
+        get totalVolume() {
+          return this._negotiations.reduce((total, { volume }) => total + volume, 0);
+        }
 
-  toArray() {
-    return [].concat(this._negotiations);
-  }
+        add(negotiation) {
+          this._negotiations.push(negotiation);
+        }
 
-  clear() {
-    this._negotiations.length = 0;
-  }
-}
+        toArray() {
+          return [].concat(this._negotiations);
+        }
+
+        clear() {
+          this._negotiations.length = 0;
+        }
+      }
+
+      _export("Negotiations", Negotiations);
+    }
+  };
+});
+//# sourceMappingURL=Negotiations.js.map

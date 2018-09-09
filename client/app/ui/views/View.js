@@ -1,13 +1,25 @@
-class View {
-  constructor(selector) {
-    this._element = document.querySelector(selector);
-  }
+System.register([], function (_export, _context) {
+  "use strict";
 
-  update(model) {
-    this._element.innerHTML = this.template(model);
-  }
+  return {
+    setters: [],
+    execute: function () {
+      class View {
+        constructor(selector) {
+          this._element = document.querySelector(selector);
+        }
 
-  template(model) {
-    throw new Error('You must implement the template method.');
-  }
-}
+        update(model) {
+          this._element.innerHTML = this.template(model);
+        }
+
+        template(model) {
+          throw new Error('You must implement the template method.');
+        }
+      }
+
+      _export('View', View);
+    }
+  };
+});
+//# sourceMappingURL=View.js.map

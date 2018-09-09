@@ -1,12 +1,22 @@
-const controller = new NegotiationController();
+System.register(['./controllers/NegotiationController.js'], function (_export, _context) {
+  "use strict";
 
-const	$	=	document.querySelector.bind(document);
+  var NegotiationController;
+  return {
+    setters: [function (_controllersNegotiationControllerJs) {
+      NegotiationController = _controllersNegotiationControllerJs.NegotiationController;
+    }],
+    execute: function () {
 
-$('.form')
-  .addEventListener('submit', controller.add.bind(controller));
+      const controller = new NegotiationController();
+      const $ = document.querySelector.bind(document);
 
-$('#btn-remove')
-  .addEventListener('click', controller.clear.bind(controller));
+      $('.form').addEventListener('submit', controller.add.bind(controller));
 
-$('#btn-import')
-  .addEventListener('click', controller.importNegotiations.bind(controller));
+      $('#btn-remove').addEventListener('click', controller.clear.bind(controller));
+
+      $('#btn-import').addEventListener('click', controller.importNegotiations.bind(controller));
+    }
+  };
+});
+//# sourceMappingURL=app.js.map
