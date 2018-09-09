@@ -1,5 +1,5 @@
-import { HttpService } from '../../util/HttpService.js';
-import { Negotiation } from './Negotiation.js';
+import { HttpService } from '../../util/HttpService';
+import { Negotiation } from './Negotiation';
 
 export class NegotiationService {
   constructor() {
@@ -8,7 +8,7 @@ export class NegotiationService {
 
   getWeekNegotiations() {
     return this._http
-      .get('negotiations/week')
+      .get('http://localhost:3000/negotiations/week')
       .then(negotiations => negotiations
         .map(({ date, amount, value }) => new Negotiation(new Date(date), amount, value))
       )
@@ -19,7 +19,7 @@ export class NegotiationService {
 
   getPreviousWeekNegotiations() {
     return this._http
-      .get('negotiations/previous')
+      .get('http://localhost:3000/negotiations/previous')
       .then(negotiations => negotiations
         .map(({ date, amount, value }) => new Negotiation(new Date(date), amount, value))
       )
@@ -30,7 +30,7 @@ export class NegotiationService {
 
   getFortnightNegotiations() {
     return this._http
-      .get('negotiations/fortnight')
+      .get('http://localhost:3000/negotiations/fortnight')
       .then(negotiations => negotiations
         .map(({ date, amount, value }) => new Negotiation(new Date(date), amount, value))
       )

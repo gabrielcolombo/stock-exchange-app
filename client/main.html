@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <title>Negotiations</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
-    <link rel="stylesheet" href="css/bootstrap-theme.css">
+    <link rel="stylesheet" href="dist/styles.css">
 </head>
 <body class="container">
     
@@ -45,12 +44,7 @@
 
     <div id="negotiations"></div>
 
-    <script	src="node_modules/reflect-metadata/Reflect.js"></script>
-    <script	src="node_modules/systemjs/dist/system.js"></script>
-    <script>
-      System
-        .import('app/app.js')
-        .catch(console.log);
-    </script>
+    <script src="dist/vendor.bundle.js"></script>
+    <script src="dist/bundle.js"></script>
   </body>
 </html>

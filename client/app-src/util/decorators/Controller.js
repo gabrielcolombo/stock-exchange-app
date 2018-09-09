@@ -7,11 +7,11 @@ export function controller(...selectors) {
     const newConstructor = function() {
       const instance = new originalConstructor(...elements);
 
-      Object
+      Object  
         .getOwnPropertyNames(originalConstructor.prototype)
         .forEach(property => {
           if(Reflect.hasMetadata('bindEvent', instance, property)) {
-            bindUIAction(instance, Reflect.getMetaData('bindEvent', instance, property));
+            bindUIAction(instance, Reflect.getMetadata('bindEvent', instance, property));
           }
         });
     }
@@ -29,7 +29,7 @@ function bindUIAction(instance, metadata) {
       if(metadata.prevent) {
         event.preventDefault();
       }
-
+      
       instance[metadata.propertyKey](event);
     });
 }

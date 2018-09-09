@@ -1,4 +1,4 @@
-import { required } from '../../util/index.js';
+import { required } from '../../util/index';
 
 export function bindEvent(
   event = required('event'),

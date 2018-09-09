@@ -1,14 +1,14 @@
 import { 
-  Negotiation, NegotiationService, Negotiations
-} from '../domain/index.js';
+  Negotiation, Negotiations
+} from '../domain/index';
 
 import { 
-  NegotiationsView, Message, MessageView, InvalidDateException, DateConverter
-} from '../ui/index.js';
+  NegotiationsView, Message, MessageView, DateConverter
+} from '../ui/index';
 
 import { 
   getNegotiationDao, Bind, getExceptionMessage, debounce, controller, bindEvent
-} from '../util/index.js';
+} from '../util/index';
 
 @controller('#date', '#amount', '#value')
 export class NegotiationController {
@@ -30,8 +30,6 @@ export class NegotiationController {
       'add',
       'clear',
     );
-
-    this._service = new NegotiationService();
 
     this._init();
   }
@@ -77,7 +75,10 @@ export class NegotiationController {
   @debounce()
   async importNegotiations() {
     try {
-      const negotiations = await this._service.getPeriodNegotiations();
+      const { NegotiationService } = await import('../domain/negotiation/NegotiationService');
+      const service = new NegotiationService();
+
+      const negotiations = await service.getPeriodNegotiations();
       
       negotiations
         .filter(negotiation => !this._negotiations
