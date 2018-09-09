@@ -13,7 +13,7 @@ export class NegotiationService {
         .map(({ date, amount, value }) => new Negotiation(new Date(date), amount, value))
       )
       .catch(err => {
-        throw new Error('An error occurred while fetching this week\'s negotiations.')
+        throw new ApplicationException('An error occurred while fetching this week\'s negotiations.')
       });
   }
 
@@ -24,7 +24,7 @@ export class NegotiationService {
         .map(({ date, amount, value }) => new Negotiation(new Date(date), amount, value))
       )
       .catch(err => {
-        throw new Error('An error occurred while fetching previous week\'s negotiations.')
+        throw new ApplicationException('An error occurred while fetching previous week\'s negotiations.')
       });
   }
 
@@ -35,22 +35,23 @@ export class NegotiationService {
         .map(({ date, amount, value }) => new Negotiation(new Date(date), amount, value))
       )
       .catch(err => {
-        throw new Error('An error occurred while fetching previous week\'s negotiations.')
+        throw new ApplicationException('An error occurred while fetching previous week\'s negotiations.')
       });
   }
 
-  getPeriodNegotiations() {
-    return Promise.all([
-      this.getWeekNegotiations(),
-      this.getPreviousWeekNegotiations(),
-      this.getFortnightNegotiations()
-    ])
-    .then(period => period
-      .reduce((arr, item) => arr.concat(item), [])
-      .sort((a, b) => a.date.getTime() - b.date.getTime())
-    )
-    .catch((err) => {
-      throw new Error('An error occurred while fetching the negotiations for the period.');
-    });
+  async getPeriodNegotiations() {
+    try {
+      const period = await Promise.all([
+        this.getWeekNegotiations(),
+        this.getPreviousWeekNegotiations(),
+        this.getFortnightNegotiations()
+      ]);
+
+      return period
+        .reduce((arr, item) => arr.concat(item), [])
+        .sort((a, b) => a.date.getTime() - b.date.getTime());
+    } catch(err) {
+      throw new ApplicationException('An error occurred while fetching the negotiations for the period.');
+    }
   }
 }

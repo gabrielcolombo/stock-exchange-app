@@ -1,10 +1,12 @@
-System.register(['./controllers/NegotiationController.js'], function (_export, _context) {
+System.register(['./controllers/NegotiationController.js', './util/index.js'], function (_export, _context) {
   "use strict";
 
-  var NegotiationController;
+  var NegotiationController, debounce;
   return {
     setters: [function (_controllersNegotiationControllerJs) {
       NegotiationController = _controllersNegotiationControllerJs.NegotiationController;
+    }, function (_utilIndexJs) {
+      debounce = _utilIndexJs.debounce;
     }],
     execute: function () {
 
@@ -15,7 +17,10 @@ System.register(['./controllers/NegotiationController.js'], function (_export, _
 
       $('#btn-remove').addEventListener('click', controller.clear.bind(controller));
 
-      $('#btn-import').addEventListener('click', controller.importNegotiations.bind(controller));
+      $('#btn-import').addEventListener('click', debounce(() => {
+        console.log('Debounced');
+        controller.importNegotiations();
+      }, 1000));
     }
   };
 });

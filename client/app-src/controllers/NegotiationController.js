@@ -7,7 +7,7 @@ import {
 } from '../ui/index.js';
 
 import { 
-  getNegotiationDao, Bind
+  getNegotiationDao, Bind, getExceptionMessage
 } from '../util/index.js';
 
 export class NegotiationController {
@@ -37,37 +37,30 @@ export class NegotiationController {
     this._init();
   }
 
-  _init() {
-    getNegotiationDao()
-      .then(dao => dao.list())
-      .then(negotiations => negotiations
-        .forEach((negotiation) => this._negotiations.add(negotiation))
-      )
-      .catch(err => this._message.text = err);
+  async _init() {
+    try {
+      const dao = await getNegotiationDao();
+      const negotiations = await dao.list();
+
+      negotiations.forEach((negotiation) => this._negotiations.add(negotiation));
+    } catch(err) {
+      this._message.text = getExceptionMessage(err);
+    }
   }
 
-  add(event) {
+  async add(event) {
     try {
       event.preventDefault();
 
       const negotiation = this._createNegotiation();
+      const dao = await dao.add(negotiation);
 
-      getNegotiationDao()
-        .then(dao => dao.add(negotiation))
-        .then(() => {
-          this._negotiations.add(negotiation);
-          this._message.text = 'Negotiation added successfully!';
+      this._negotiations.add(negotiation);
+      this._message.text = 'Negotiation added successfully!';
 
-          this._clearForm();
-        })
-        .catch(err => this._message.text = err);
+      this._clearForm();
     } catch(err) {
-      console.log(err);
-      console.log(err.stack);
-
-      this._message.text = (err instanceof InvalidDateException)
-        ? err.message
-        : 'We\'ve found an unexpected error. Please contact customer support.';
+      this._message.text = getExceptionMessage(err);
     }
   }
 
@@ -79,21 +72,21 @@ export class NegotiationController {
     );
   }
 
-  importNegotiations() {
-    this._service
-      .getPeriodNegotiations()
-      .then((negotiations) => {
-        negotiations
-          .filter(negotiation => !this._negotiations
-            .toArray()
-            .some(existingNegotiation => negotiation.equals(existingNegotiation))
-          )
-          .forEach(negotiation => this._negotiations.add(negotiation));
-        this._message.text = 'Negotiations imported successfully!';
-      })
-      .catch((err) => {
-        this._message.text = err;
-      });
+  async importNegotiations() {
+    try {
+      const negotiations = await this._service.getPeriodNegotiations();
+      
+      negotiations
+        .filter(negotiation => !this._negotiations
+          .toArray()
+          .some(existingNegotiation => negotiation.equals(existingNegotiation))
+        )
+        .forEach(negotiation => this._negotiations.add(negotiation));
+
+      this._message.text = 'Negotiations imported successfully!';
+    } catch(err) {
+      this._message.text = getExceptionMessage(err);
+    }
   }
 
   _clearForm() {
@@ -104,14 +97,16 @@ export class NegotiationController {
     this._dateInput.focus();
   }
 
-  clear() {
-    getNegotiationDao()
-      .then(dao => dao.clear())
-      .then(() => {
-        this._negotiations.clear();
-    
-        this._message.text = 'Negotiations cleared sucessfully!';
-      })
-      .catch(err => this._message.text = err);
+  async clear() {
+    try {
+      const dao = await getNegotiationDao();
+      await dao.clear();
+
+      this._negotiations.clear();
+      this._message.text = 'Negotiations cleared sucessfully!';
+
+    } catch(err) {
+      this._message.text = getExceptionMessage(err);
+    }
   }
 }
