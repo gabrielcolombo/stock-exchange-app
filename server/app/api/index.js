@@ -47,7 +47,6 @@ api.getFortnight = function(req, res) {
 };
 
 api.createNegotiation = function(req, res) {
-
    console.log(req.body);
    req.body.date = new Date(req.body.date.replace(/-/g,'/'));
    negotiations.push(req.body);

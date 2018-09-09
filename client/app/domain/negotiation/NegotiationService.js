@@ -2,36 +2,6 @@ System.register(['../../util/HttpService.js', './Negotiation.js'], function (_ex
   "use strict";
 
   var HttpService, Negotiation;
-
-  function _asyncToGenerator(fn) {
-    return function () {
-      var gen = fn.apply(this, arguments);
-      return new Promise(function (resolve, reject) {
-        function step(key, arg) {
-          try {
-            var info = gen[key](arg);
-            var value = info.value;
-          } catch (error) {
-            reject(error);
-            return;
-          }
-
-          if (info.done) {
-            resolve(value);
-          } else {
-            return Promise.resolve(value).then(function (value) {
-              step("next", value);
-            }, function (err) {
-              step("throw", err);
-            });
-          }
-        }
-
-        return step("next");
-      });
-    };
-  }
-
   return {
     setters: [function (_utilHttpServiceJs) {
       HttpService = _utilHttpServiceJs.HttpService;
@@ -39,7 +9,36 @@ System.register(['../../util/HttpService.js', './Negotiation.js'], function (_ex
       Negotiation = _NegotiationJs.Negotiation;
     }],
     execute: function () {
-      class NegotiationService {
+      function _asyncToGenerator(fn) {
+        return function () {
+          var gen = fn.apply(this, arguments);
+          return new Promise(function (resolve, reject) {
+            function step(key, arg) {
+              try {
+                var info = gen[key](arg);
+                var value = info.value;
+              } catch (error) {
+                reject(error);
+                return;
+              }
+
+              if (info.done) {
+                resolve(value);
+              } else {
+                return Promise.resolve(value).then(function (value) {
+                  step("next", value);
+                }, function (err) {
+                  step("throw", err);
+                });
+              }
+            }
+
+            return step("next");
+          });
+        };
+      }
+
+      let NegotiationService = class NegotiationService {
         constructor() {
           this._http = new HttpService();
         }
@@ -79,7 +78,7 @@ System.register(['../../util/HttpService.js', './Negotiation.js'], function (_ex
             }
           })();
         }
-      }
+      };
 
       _export('NegotiationService', NegotiationService);
     }

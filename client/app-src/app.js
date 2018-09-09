@@ -1,17 +1,14 @@
 import { NegotiationController } from './controllers/NegotiationController.js';
-import { debounce } from './util/index.js';
+import { Negotiation } from './domain/index.js';
 
-const controller = new NegotiationController();
-const	$	=	document.querySelector.bind(document);
+// const negotiation = new Negotiation(new Date(), 1, 200);
+const headers = new Headers();
+const method = 'POST';
+const body = JSON.stringify({ date: '01/02/2016', amount: 1, value: 200});
 
-$('.form')
-  .addEventListener('submit', controller.add.bind(controller));
+headers.set('Content-Type', 'application/json');
 
-$('#btn-remove')
-  .addEventListener('click', controller.clear.bind(controller));
+const config = { method, headers, body };
 
-$('#btn-import')
-  .addEventListener('click', debounce(() => {
-    console.log('Debounced');
-    controller.importNegotiations();
-  }, 1000));
+fetch('/negotiations', config)
+  .then(() => console.log('Data sent successfully.'));

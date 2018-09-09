@@ -7,17 +7,16 @@ import {
 } from '../ui/index.js';
 
 import { 
-  getNegotiationDao, Bind, getExceptionMessage
+  getNegotiationDao, Bind, getExceptionMessage, debounce, controller, bindEvent
 } from '../util/index.js';
 
+@controller('#date', '#amount', '#value')
 export class NegotiationController {
-  constructor() {
+  constructor(_dateInput, _amountInput, _valueInput) {
     const $ = document.querySelector.bind(document);
     const self = this;
 
-    this._dateInput = $('#date');
-    this._amountInput = $('#amount');
-    this._valueInput = $('#value');
+    Object.assign(this, { _dateInput, _amountInput, _valueInput });
 
     this._message = new Bind(
       new Message(),
@@ -48,6 +47,8 @@ export class NegotiationController {
     }
   }
 
+  @bindEvent('submit', '.form')
+  @debounce()
   async add(event) {
     try {
       event.preventDefault();
@@ -72,6 +73,8 @@ export class NegotiationController {
     );
   }
 
+  @bindEvent('click', '#btn-import')
+  @debounce()
   async importNegotiations() {
     try {
       const negotiations = await this._service.getPeriodNegotiations();
@@ -97,6 +100,7 @@ export class NegotiationController {
     this._dateInput.focus();
   }
 
+  @bindEvent('click', '#btn-clear')
   async clear() {
     try {
       const dao = await getNegotiationDao();

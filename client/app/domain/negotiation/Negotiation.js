@@ -1,11 +1,14 @@
-System.register([], function (_export, _context) {
+System.register(['../../util/index.js'], function (_export, _context) {
   "use strict";
 
+  var required;
   return {
-    setters: [],
+    setters: [function (_utilIndexJs) {
+      required = _utilIndexJs.required;
+    }],
     execute: function () {
-      class Negotiation {
-        constructor(_date, _amount, _value) {
+      let Negotiation = class Negotiation {
+        constructor(_date = required('date'), _amount = required('amount'), _value = required('value')) {
           Object.assign(this, { _amount, _value });
 
           this._date = new Date(_date.getTime());
@@ -32,9 +35,9 @@ System.register([], function (_export, _context) {
         equals(negotiation) {
           return JSON.stringify(this) === JSON.stringify(negotiation);
         }
-      }
+      };
 
-      _export("Negotiation", Negotiation);
+      _export('Negotiation', Negotiation);
     }
   };
 });
